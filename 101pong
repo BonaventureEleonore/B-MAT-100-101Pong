@@ -1,0 +1,65 @@
+#!/usr/bin/env python3
+
+from sys import argv
+from math import sqrt, atan2, degrees
+
+def main(argv):
+    error_handle(argv)
+    x = float(argv[4]) - float(argv[1])
+    y = float(argv[5]) - float(argv[2])
+    z = float(argv[6]) - float(argv[3])
+    print("The velocity vector of the ball is:")
+    print_velocity(x, y, z)
+    print("At time t + ", int(argv[7]), ", ball coordinates will be:", sep ='')
+    coordonate(argv, x, y, z)
+    if (float(argv[6]) > 0.0 and z < 0.0) or (float(argv[6]) < 0.0 and z > 0.0):
+        incident_angle(argv, x, y, z)
+    else :
+        print("The ball won't reach the paddle.", sep ='')
+
+def error_handle(argv):
+    if len(argv) != 8 and len(argv) != 2:
+        exit(84)
+    if argv[1] == "-h":
+        print("USAGE")
+        print("\t./101pong x0 y0 z0 x1 y1 z1 n\n")
+        print("DESCRIPTION")
+        print("\tx0 ball abscissa at time t - 1")
+        print("\ty0 ball ordinate at time t - 1")
+        print("\tz0 ball altitude at time t - 1")
+        print("\tx1 ball abscissa at time t")
+        print("\ty1 ball ordinate at time t")
+        print("\tz1 ball altitude at time t")
+        print("\tn time shift", '(', "greater than or equal to zero, integer", ')', sep='')
+    if len(argv) != 8:
+        exit (84)
+    try:
+        float(argv[1])
+        float(argv[2])
+        float(argv[3])
+        float(argv[4])
+        float(argv[5])
+        float(argv[6])
+        int(argv[7])
+    except ValueError:
+        exit(84)
+    if int(argv[7]) < 0:
+        exit(84)
+
+def print_velocity(x, y, z):
+    print('(', format(x, ".2f"), ', ', format(y, ".2f"), ', ', format(z, ".2f"), ')' ,sep='')
+
+def coordonate(argv, x, y, z):
+    x2 = x * float(argv[7]) + float(argv[4])
+    y2 = y * float(argv[7]) + float(argv[5])
+    z2 = z * float(argv[7]) + float(argv[6])
+    print('(', format(x2, ".2f"), ', ', format(y2, ".2f"), ', ', format(z2, ".2f"), ')' ,sep='')
+
+def incident_angle(argv, x, y, z):
+    oposite = sqrt((x * x) + (y * y))
+    angle = abs((90 - degrees(atan2(oposite, z))))
+    print("The incidence angle is:")
+    print(format(angle, ".2f"), end='')
+    print(" degrees")
+
+main(argv)
