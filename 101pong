@@ -62,4 +62,5 @@ def incident_angle(argv, x, y, z):
     print(format(angle, ".2f"), end='')
     print(" degrees")
 
-main(argv)
+if __name__ == "__main__":
+    main(argv)
